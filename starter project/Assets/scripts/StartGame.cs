@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public AudioClip Win;
+    public AudioClip startjingle;
+    public float volume = 0.5f;
 
     public float timeLeft1 = 3.0f;
     public float timeLeft2 = 10.0f;
@@ -17,6 +21,8 @@ public class StartGame : MonoBehaviour
         // sets 10sec and winscreen not active
         startText2.enabled = false;
         winscreen.enabled = false;
+        Time.timeScale = 1;
+        audioSource.PlayOneShot(startjingle, volume);
     }
 
     void Update()
@@ -33,8 +39,14 @@ public class StartGame : MonoBehaviour
             startText2.text = (timeLeft2).ToString("0");
             if (timeLeft2 < 0)
             {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    Application.LoadLevel(0);
+                }
                 startText2.enabled = false;
                 winscreen.enabled = true;
+                Time.timeScale = 0;
+                audioSource.PlayOneShot(Win, volume);
             }
         }
     }
